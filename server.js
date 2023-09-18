@@ -1,10 +1,10 @@
-const express = require("express")
+const express =  require("express")
 const app = express();
 const path = require("path");
 const {sequelize} = require("./models")
 const {rootRouter} = require("./Routers")
 const cors = require("cors")
-
+//heloo
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
