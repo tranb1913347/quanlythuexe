@@ -1,10 +1,11 @@
 const {cars} = require("../models")
 
 const CreateNewCar = async (req,res) => {
-  const {companyID, numberOfSeat, cost, ownerID, description} = req.body;
+  const {name, company, numberOfSeat, cost, ownerID, description} = req.body;
   try {
     const newCar = await cars.create({
-        companyID,
+      name,
+        company,
         numberOfSeat,
         cost,
         ownerID,
@@ -36,6 +37,16 @@ const GetCarByID = async (req, res) => {
   }
 }
 
+const GetCarByOwnerId = async (req, res) => {
+    const {ownerID} = req.params;
+    try {
+      const result = await cars.findAll({where: {ownerID}});
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(500).send(error)
+    }
+}
+
 const DeleteCarById = async (req,res) => {
   const {id} = req.params;
   try {
@@ -47,10 +58,11 @@ const DeleteCarById = async (req,res) => {
 }
 
 const UpdateCarById = async (req,res) => {
-    const {companyID, numberOfSeat, cost, ownerID, description} = req.body;
+    const {company, numberOfSeat, name, cost, ownerID, description} = req.body;
     const {id} = req.params;
     try {
-        if(companyID) await cars.update({companyID}, {where: {id}})
+        if(company) await cars.update({company}, {where: {id}})
+        if(name) await cars.update({name}, {where: {id}})
         if(numberOfSeat) await cars.update({numberOfSeat}, {where: {id}})
         if(cost) await cars.update({cost}, {where: {id}})
         if(ownerID) await cars.update({ownerID}, {where: {id}})
@@ -61,11 +73,27 @@ const UpdateCarById = async (req,res) => {
         res.status(500).send(error)
     }
 }
+
+const uploadImage = async (req, res) => {
+  const { file } = req;
+  const image = `http://localhost:5000/${file.path}`;
+  const {id} = req.params;
+
+  try {
+    await cars.update({image}, {where: {id}})
+    const newCar = await cars.findOne({where: {id}})
+    res.status(200).send(newCar)
+  } catch (error) {
+    res.status(500).send(error)
+  }
+}
  
 module.exports = {
     CreateNewCar,
     GetAllCar,
     GetCarByID,
     DeleteCarById,
-    UpdateCarById
+    UpdateCarById,
+    uploadImage,
+    GetCarByOwnerId
 }

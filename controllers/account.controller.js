@@ -3,7 +3,7 @@ const {accounts} = require("../models");
 const createNewAccount = async (req,res) => {
   const {username, password, email, phone, address, type} = req.body;
   try{
-    const findEmail = await accounts.findOne({email})
+    const findEmail = await accounts.findOne({where:{email}})
     if(!findEmail){
         const newAccount = await accounts.create({
             username,
@@ -19,6 +19,24 @@ const createNewAccount = async (req,res) => {
   } catch(err){
     res.status(500).send(err);
   }
+}
+
+const loginAccount = async (req, res) => {
+  const {email, password} = req.body;
+  try {
+    const findEmail = await accounts.findOne({where: {email}});
+    if (findEmail) {
+      if (findEmail.password === password){
+        res.status(200).send(findEmail)
+      }
+      else res.status(404).send("LOGIN FAILED!");
+    }
+      else res.status(404).send("LOGIN FAILED!");
+  } catch (error) {
+      res.status(500).send(error);
+  }
+
+
 }
 
 const GetAllAccount = async (req, res) => {
@@ -73,5 +91,6 @@ module.exports = {
     GetAllAccount,
     GetAccountById,
     DeleteAccountById,
-    UpdateAccount
+    UpdateAccount,
+    loginAccount
 }

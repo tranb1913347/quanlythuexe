@@ -9,8 +9,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      companyID: {
-        type: Sequelize.INTEGER
+      name:{
+        type: Sequelize.STRING
+        
+      },
+      company: {
+        type: Sequelize.STRING
       },
       numberOfSeat: {
         type: Sequelize.INTEGER
