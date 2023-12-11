@@ -12,16 +12,28 @@ module.exports = {
       userID: {
         type: Sequelize.INTEGER
       },
-      postID: {
+      carID: {
         type: Sequelize.INTEGER
       },
       cost: {
         type: Sequelize.FLOAT
       },
-      date: {
+      startDate: {
+        type: Sequelize.DATE
+      },
+      endDate: {
         type: Sequelize.DATE
       },
       status: {
+        type: Sequelize.STRING
+      },
+      note: {
+        type: Sequelize.STRING
+      },
+      address: {
+        type: Sequelize.STRING
+      },
+      username: {
         type: Sequelize.STRING
       },
       createdAt: {

@@ -15,10 +15,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   rentals.init({
     userID: DataTypes.INTEGER,
-    postID: DataTypes.INTEGER,
+    carID: DataTypes.INTEGER,
     cost: DataTypes.FLOAT,
-    date: DataTypes.DATE,
-    status: DataTypes.STRING
+    startDate: DataTypes.DATE,
+    endDate: DataTypes.DATE,
+    note: DataTypes.STRING,
+    status: DataTypes.STRING,
+    address: DataTypes.STRING,
+    username: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'rentals',
