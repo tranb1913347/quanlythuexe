@@ -27,6 +27,9 @@ module.exports = {
       status: {
         type: Sequelize.STRING
       },
+      cancuoc: {
+        type: Sequelize.STRING
+      },
       note: {
         type: Sequelize.STRING
       },

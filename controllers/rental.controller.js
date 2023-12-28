@@ -1,11 +1,12 @@
 const {rentals, cars} = require("../models")
 
 const createNewRental = async (req, res) => {
-  const {userID, carID, cost, startDate, endDate, status, note, username, address} = req.body;
+  const {userID, carID, cost, startDate, endDate, status, note, username, address, cancuoc} = req.body;
   try {
     const newRental = await rentals.create({
-        userID, carID, note, cost, startDate, endDate, status, address, username
+        userID, carID, note, cost, startDate, endDate, status, address, username, cancuoc
     })
+    await cars.update({status: "BUSY"}, {where: {id: carID}} )
     res.status(201).send(newRental);
   } catch (error) {
     res.status(500).send(error)
@@ -15,7 +16,9 @@ const createNewRental = async (req, res) => {
 const deleteRental = async (req, res) => {
   const {id} = req.params;
   try {
+    const findRental = await rentals.findOne({where: {id}});
     await rentals.destroy({where: {id}});
+    await cars.update({status: "FREE"}, {where: {id: findRental.carID}} )
     res.status(200).send("DELETE");
   } catch (error) {
     res.status(500).send(error);    
